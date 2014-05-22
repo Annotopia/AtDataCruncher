@@ -35,7 +35,7 @@ class CrunchController {
 	def openAnnotationReportingService;
 	
 	def pulse = {
-		render(view: "pulse-charts", model: [menu: 'pulse'])
+		render(view: "pulse-dc", model: [menu: 'pulse'])
 	}
 	
 	def getNumberOfAnnotations = {

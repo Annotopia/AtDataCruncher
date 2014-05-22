@@ -4,11 +4,11 @@
 		<meta name="layout" content="secure"/>
 		<title>Annotopia Pulse</title>
 
-		<link rel="stylesheet" href="${resource(dir: 'js/dc', file: 'dc.css')}" type="text/css">
+		<link rel="stylesheet" href="${resource(dir: 'js/dc', file: 'dc.css', plugin: 'at-data-cruncher')}" type="text/css">
 		
-		<script type="text/javascript" src="${resource(dir: 'js/dc', file: 'd3.js')}"></script>
-		<script type="text/javascript" src="${resource(dir: 'js/dc', file: 'crossfilter.js')}"></script>
-		<script type="text/javascript" src="${resource(dir: 'js/dc', file: 'dc.js')}"></script>
+		<script type="text/javascript" src="${resource(dir: 'js/dc', file: 'd3.js', plugin: 'at-data-cruncher')}"></script>
+		<script type="text/javascript" src="${resource(dir: 'js/dc', file: 'crossfilter.js', plugin: 'at-data-cruncher')}"></script>
+		<script type="text/javascript" src="${resource(dir: 'js/dc', file: 'dc.js', plugin: 'at-data-cruncher')}"></script>
 		<script>
 
 			$( document ).ready(function() {

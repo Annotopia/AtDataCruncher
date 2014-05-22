@@ -1,5 +1,10 @@
 package org.annotopia.grails.controllers.datacruncher
 
+import grails.converters.JSON
+
+import org.codehaus.groovy.grails.web.json.JSONArray
+import org.codehaus.groovy.grails.web.json.JSONObject
+
 /*
  * Copyright 2014 Massachusetts General Hospital
  *
@@ -30,7 +35,7 @@ class CrunchController {
 	def openAnnotationReportingService;
 	
 	def pulse = {
-		render(view: "pulse", model: [menu: 'pulse'])
+		render(view: "pulse-charts", model: [menu: 'pulse'])
 	}
 	
 	def getNumberOfAnnotations = {
@@ -43,5 +48,29 @@ class CrunchController {
 	
 	def getNumberOfAnnotatedResources = {
 		render openAnnotationReportingService.countAnnotatedResources("yolo");
+	}
+	
+	def getNumberOfAnnotationByResource = {
+		JSONArray results = new JSONArray();
+		Map<String, Integer> map = openAnnotationReportingService.countAnnotationsForAllResources("yolo");
+		map.keySet().each { key ->
+			JSONObject result = new JSONObject();
+			result.put("resource", key);
+			result.put("counter", map.get(key).toString());
+			results.add(result);
+		}
+		render results as JSON;
+	}
+	
+	def getNumberOfAnnotationByUser = {
+		JSONArray results = new JSONArray();
+		Map<String, Integer> map = openAnnotationReportingService.countAnnotationsForEachUser("yolo");
+		map.keySet().each { key ->
+			JSONObject result = new JSONObject();
+			result.put("user", key);
+			result.put("counter", map.get(key).toString());
+			results.add(result);
+		}
+		render results as JSON;
 	}
 }

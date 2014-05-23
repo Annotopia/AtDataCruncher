@@ -19,7 +19,7 @@
 				laadNumberOfAnnotationByResource();
 				laadNumberOfAnnotationByUser();
 				laadNumberOfAnnotationByClient();
-				laadNumberOfAnnotationSetsByResource();
+				//laadNumberOfAnnotationSetsByResource();
 			});
 
 			function laadNumberOfAnnotations() {

@@ -19,6 +19,7 @@
 				laadNumberOfAnnotationByResource();
 				laadNumberOfAnnotationByUser();
 				laadNumberOfAnnotationByClient();
+				laadNumberOfAnnotationSetsByResource();
 			});
 
 			function laadNumberOfAnnotations() {
@@ -176,6 +177,55 @@
 
 
 			}
+
+			function laadNumberOfAnnotationSetsByResource() {
+				console.log( "Loading number of annotation sets by user..." );
+
+				$.ajax({
+					type: "GET",
+					dataType: "text",
+					url: "getNumberOfAnnotationByUser"
+				}).done(function( results ) {
+					console.log( "Number of annotation by user " + results);
+
+					var data = []
+					var counters = JSON.parse(results);
+					for(var i=0; i<counters.length; i++) {
+						var datum = {
+							Name: counters[i].user, Spent: counters[i].counter, Year: 2015
+						}
+						data.push(datum);
+					}
+
+					// normalize/parse data
+					data.forEach(function(d) {
+					    d.Spent = d.Spent.match(/\d+/);
+					});
+					
+					var chart = dc.rowChart("#chartNumberOfAnnotationSetsByResource");
+					// set crossfilter
+					var ndx = crossfilter(data),
+					    yearDim = ndx.dimension(function(d) {return +d.Year;}),
+					    spendDim = ndx.dimension(function(d) {return Math.floor(d.Spent/10);}),
+					    nameDim = ndx.dimension(function(d) {return d.Name;}),
+					    spendPerYear = yearDim.group().reduceSum(function(d) {return +d.Spent;}),
+					    spendPerName = nameDim.group().reduceSum(function(d) {return +d.Spent;}),
+					    spendHist = spendDim.group().reduceCount();
+					         
+					chart
+					    .width(700).height(500)
+					    .dimension(nameDim)
+					    .group(spendPerName)
+					    .elasticX(true);
+
+					chart.render();
+				}).fail(function() {
+					console.log( "FAILED loading number of annotation by user" );
+				})
+				.always(function() {
+					
+				});				
+			}
 		</script>
 	</head>
 	<body>
@@ -201,6 +251,9 @@
 			
 			<h3 style="display: block; clear: both;">Annotations by Users</h3>
 			<div id="chartNumberOfAnnotationByUser"></div>
+			
+			<h3 style="display: block; clear: both;">Annotation Sets by Resource</h3>
+			<div id="chartNumberOfAnnotationSetsByResource"></div>
 			
 			<%-- 
 			<h3 style="display: block; clear: both;"> Annotations by Client</h3>

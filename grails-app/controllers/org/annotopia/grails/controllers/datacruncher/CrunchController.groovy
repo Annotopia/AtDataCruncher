@@ -62,6 +62,18 @@ class CrunchController {
 		render results as JSON;
 	}
 	
+	def getNumberOfAnnotationSetsByResource = {
+		JSONArray results = new JSONArray();
+		Map<String, Integer> map = openAnnotationReportingService.countAnnotationsForAllResources("yolo");
+		map.keySet().each { key ->
+			JSONObject result = new JSONObject();
+			result.put("resource", key);
+			result.put("counter", map.get(key).toString());
+			results.add(result);
+		}
+		render results as JSON;
+	}
+	
 	def getNumberOfAnnotationByUser = {
 		JSONArray results = new JSONArray();
 		Map<String, Integer> map = openAnnotationReportingService.countAnnotationsForEachUser("yolo");

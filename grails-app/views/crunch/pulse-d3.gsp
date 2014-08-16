@@ -41,8 +41,8 @@
 				<tr>
 					<td style="width: 280px; vertical-align: top; padding-top:30px;">
 						<span style="font-weight: bold;">Annotations Distribution by Client</span>
-						<button onClick="changeData()">Change Data</button></td>
-					<td><div id="annotationsBySystem"></div></td>
+						<div id="annotationsByClientLegend"></div>
+					<td><div id="annotationsByClient"></div></td>
 					<td style="width: 80px; vertical-align: top;"></td>
 				</tr>
 			</table>
@@ -61,16 +61,10 @@
            var svg1 = d3.select("#annotationsByTypeChart").append("svg").attr("width",400).attr("height",300);
            svg1.append("g").attr("id","salesDonut");
 
-           var svg2 = d3.select("#annotationsBySystem").append("svg").attr("width",400).attr("height",300);
+           var svg2 = d3.select("#annotationsByClient").append("svg").attr("width",400).attr("height",300);
            svg2.append("g").attr("id","quotesDonut");
 
           
-           Donut3D.draw("quotesDonut", randomData(), 150, 150, 130, 100, 30, 0);
-           	
-           function changeData(){
-           		//Donut3D.transition("salesDonut", randomData(), 130, 100, 30, 0.4);
-           		Donut3D.transition("quotesDonut", randomData(), 130, 100, 30, 0);
-           }
 
            function randomData(){
            	return salesData.map(function(d){ 
@@ -80,6 +74,7 @@
 			$( document ).ready(function() {
 				console.log( "Pulse page ready to roll" );
 				laadAnnotationsByType();
+				laadAnnotationsByClient();
 			});
 
 			function laadAnnotationsByType() {
@@ -105,6 +100,35 @@
 					Donut3D.draw("salesDonut", annotationsByTypes, 150, 150, 130, 100, 30, 0.4);
 				}).fail(function() {
 					console.log( "FAILED loading number of annotations by type" );
+				})
+				.always(function() {
+					
+				});	
+			}
+
+			function laadAnnotationsByClient() {
+				console.log( "Loading number of annotations by client..." );
+
+				$.ajax({
+					type: "GET",
+					url: "getNumberOfAnnotationByClient"
+				}).done(function( data ) {
+					console.log( "Number of annotations by client " + data);
+					var counter =0;
+					var annotationsByClient = new Array();
+					data.forEach(function(d) {
+						var a = {};
+						a["label"] = d.client;
+						a["value"] = d.counter;
+						a["color"] = salesData[counter].color;
+						annotationsByClient[counter] = a;
+						$("#annotationsByClientLegend").append(d.client + "-" + d.counter + "<br/>");
+					    counter++;
+					});
+
+					Donut3D.draw("quotesDonut", annotationsByClient, 150, 150, 130, 100, 30, 0.4);
+				}).fail(function() {
+					console.log( "FAILED loading number of annotations by client" );
 				})
 				.always(function() {
 					

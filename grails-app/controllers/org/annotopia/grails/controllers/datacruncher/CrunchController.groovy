@@ -90,16 +90,24 @@ class CrunchController {
 		render results as JSON;
 	}
 	
-	def getNumberOfAnnotationByClient = {
-		
-	}
-	
 	def getNumberOfAnnotationByType = {
 		JSONArray results = new JSONArray();
 		Map<String, Integer> map = openAnnotationReportingService.countAnnotationsByType("yolo");
 		map.keySet().each { key ->
 			JSONObject result = new JSONObject();
 			result.put("type", key);
+			result.put("counter", map.get(key).toString());
+			results.add(result);
+		}
+		render results as JSON;
+	}
+	
+	def getNumberOfAnnotationByClient = {
+		JSONArray results = new JSONArray();
+		Map<String, Integer> map = openAnnotationReportingService.countAnnotationsByClient("yolo");
+		map.keySet().each { key ->
+			JSONObject result = new JSONObject();
+			result.put("client", key);
 			result.put("counter", map.get(key).toString());
 			results.add(result);
 		}

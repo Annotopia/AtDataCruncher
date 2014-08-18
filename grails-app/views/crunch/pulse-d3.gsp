@@ -92,7 +92,7 @@
 						<div id="annotationsByClient"></div>
 					</td>
 				</tr>
-			</table>		
+			</table>	
 			<table class="statistics">
 				<tr>
 					<td colspan="3"><span style="font-weight: bold; font-size: 18px;">Annotations Distribution by Target Type</span></td>
@@ -105,6 +105,19 @@
 						<div id="annotationsByTargetType"></div>
 					</td>
 				</tr>
+			</table>	
+			<table class="statistics">
+				<tr>
+					<td colspan="3"><span style="font-weight: bold; font-size: 18px;">Annotations Distribution by Target Scope</span></td>
+				</tr>	
+				<tr>
+					<td style="width: 80px; vertical-align: top; padding-top:30px;">
+						<div id="targetScopeBars"></div>
+					</td>
+					<td>
+						<div id="annotationsByTargetScope"></div>
+					</td>
+				</tr>
 			</table>
 		</div>
 		<script>
@@ -115,8 +128,11 @@
            var svg2 = d3.select("#annotationsByClient").append("svg").attr("width",300).attr("height",300);
            svg2.append("g").attr("id","annotationsByClientDonut");
 
-           var svg2 = d3.select("#annotationsByTargetType").append("svg").attr("width",300).attr("height",300);
-           svg2.append("g").attr("id","targetTypeDonut");
+           var svg3 = d3.select("#annotationsByTargetType").append("svg").attr("width",300).attr("height",300);
+           svg3.append("g").attr("id","targetTypeDonut");
+
+           var svg4 = d3.select("#annotationsByTargetScope").append("svg").attr("width",300).attr("height",300);
+           svg4.append("g").attr("id","targetScopeDonut");
 
           
 
@@ -129,6 +145,7 @@
 				laadAnnotationsByType();
 				laadAnnotationsByClient();
 				laadAnnotationsByTargetType();
+				laadAnnotationsByTargetScope();
 			});
 
 			function laadAnnotationsByClient() {
@@ -210,6 +227,33 @@
 					drawBars("#targetTypeBars", annotationsByTypes);
 				}).fail(function() {
 					console.log( "FAILED loading number of annotations by type" );
+				});	
+			}
+
+			function laadAnnotationsByTargetScope() {
+				console.log( "Loading number of annotations by target scope..." );
+
+				$.ajax({
+					type: "GET",
+					url: "getNumberOfAnnotationByTargetScope"
+				}).done(function( data ) {
+					console.log( "Number of annotations by target scope " + data);
+					var counter =0;
+					var annotationsByTypes = new Array();
+					data.forEach(function(d) {
+						var a = {};
+						a["label"] = d.label;
+						a["value"] = d.value;
+						a["color"] = color(counter);
+						annotationsByTypes[counter] = a;
+					    counter++;
+					});
+
+					Donut3D.draw("targetScopeDonut", annotationsByTypes, 150, 150, 130, 100, 30, 0.4);
+
+					drawBars("#targetScopeBars", annotationsByTypes);
+				}).fail(function() {
+					console.log( "FAILED loading number of annotations by scope" );
 				});	
 			}
 

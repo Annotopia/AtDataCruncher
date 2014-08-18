@@ -32,14 +32,15 @@ import org.codehaus.groovy.grails.web.json.JSONObject
  */
 class CrunchController {
 	
+	def userAuthenticationService;
 	def openAnnotationReportingService;
 	
 	def pulse = {
 		render(view: "pulse-dc", model: [menu: 'pulse'])
 	}
 	
-	def pulse2 = {
-		render(view: "pulse-d3", model: [menu: 'pulse'])
+	def stats = {
+		render(view: "pulse-d3", model: [menu: 'stats'])
 	}
 	
 	def getNumberOfAnnotations = {
@@ -91,8 +92,10 @@ class CrunchController {
 	}
 	
 	def getNumberOfAnnotationByType = {
+		def userId = userAuthenticationService.getUserId(request.getRemoteAddr());
+		
 		JSONArray results = new JSONArray();
-		Map<String, Integer> map = openAnnotationReportingService.countAnnotationsByType("yolo");
+		Map<String, Integer> map = openAnnotationReportingService.countAnnotationsByType(userId);
 		map.keySet().each { key ->
 			JSONObject result = new JSONObject();
 			result.put("type", key);
@@ -103,8 +106,10 @@ class CrunchController {
 	}
 	
 	def getNumberOfAnnotationByClient = {
+		def userId = userAuthenticationService.getUserId(request.getRemoteAddr());
+		
 		JSONArray results = new JSONArray();
-		Map<String, Integer> map = openAnnotationReportingService.countAnnotationsByClient("yolo");
+		Map<String, Integer> map = openAnnotationReportingService.countAnnotationsByClient(userId);
 		map.keySet().each { key ->
 			JSONObject result = new JSONObject();
 			result.put("client", key);
@@ -115,8 +120,24 @@ class CrunchController {
 	}
 	
 	def getNumberOfAnnotationByTargetType = {
+		def userId = userAuthenticationService.getUserId(request.getRemoteAddr());
+		
 		JSONArray results = new JSONArray();
-		Map<String, Integer> map = openAnnotationReportingService.countAnnotationsByTargetType("yolo");
+		Map<String, Integer> map = openAnnotationReportingService.countAnnotationsByTargetType(userId);
+		map.keySet().each { key ->
+			JSONObject result = new JSONObject();
+			result.put("label",key);
+			result.put("value", map.get(key).toString());
+			results.add(result);
+		}
+		render results as JSON;
+	}
+	
+	def getNumberOfAnnotationByTargetScope = {
+		def userId = userAuthenticationService.getUserId(request.getRemoteAddr());
+		
+		JSONArray results = new JSONArray();
+		Map<String, Integer> map = openAnnotationReportingService.countAnnotationsByTargetScope(userId);
 		map.keySet().each { key ->
 			JSONObject result = new JSONObject();
 			result.put("label",key);

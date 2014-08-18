@@ -113,4 +113,16 @@ class CrunchController {
 		}
 		render results as JSON;
 	}
+	
+	def getNumberOfAnnotationByTargetType = {
+		JSONArray results = new JSONArray();
+		Map<String, Integer> map = openAnnotationReportingService.countAnnotationsByTargetType("yolo");
+		map.keySet().each { key ->
+			JSONObject result = new JSONObject();
+			result.put("label",key);
+			result.put("value", map.get(key).toString());
+			results.add(result);
+		}
+		render results as JSON;
+	}
 }

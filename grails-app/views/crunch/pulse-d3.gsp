@@ -266,7 +266,7 @@
 				var labels = new Array();
 				var values = new Array();
 				data.forEach(function(d) {
-					labels.push(d.label);
+					labels.push((d.label!='null')?d.label:'not specified');
 					values.push(parseInt(d.value));
 				});
 				

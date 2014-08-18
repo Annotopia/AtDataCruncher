@@ -213,14 +213,8 @@
 				});	
 			}
 
-			
-
 			var color = d3.scale.category20();
 
-			var toType = function(obj) {
-				  return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
-				}
-			
 			function drawBars(id, data) {
 
 				var indices = d3.range(0, data.length);   
@@ -237,7 +231,6 @@
 			      	bar_height = 30,
 			      	height = bar_height * data.length;
 				
-				 /* step 2 */
 				 var x, y;
 
 				 x = d3.scale.linear()
@@ -248,7 +241,6 @@
 				    .domain(indices)
 				    .rangeBands([0, height]);
 				    
-				 /* step 4 */
 				 var left_width = 280;
 				 
 				 chart = d3.select($(id)[0])
@@ -256,9 +248,7 @@
 				    .attr('class', 'chart')
 				    .attr('width', left_width + width)
 				    .attr('height', height);
-
-
-				 
+ 
 				 chart.selectAll("rect")
 				    .data(values)
 				    .enter().append("rect")

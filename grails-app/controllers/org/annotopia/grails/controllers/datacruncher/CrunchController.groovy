@@ -36,28 +36,33 @@ class CrunchController {
 	def openAnnotationReportingService;
 	
 	def pulse = {
-		render(view: "pulse-dc", model: [menu: 'pulse'])
+		render(view: "pulse-one", model: [menu: 'pulse'])
 	}
 	
 	def stats = {
-		render(view: "pulse-d3", model: [menu: 'stats'])
+		render(view: "stats-one", model: [menu: 'stats'])
 	}
 	
 	def getNumberOfAnnotations = {
-		render openAnnotationReportingService.countAnnotations("yolo");
+		def userId = userAuthenticationService.getUserId(request.getRemoteAddr());
+		render openAnnotationReportingService.countAnnotations(userId);
 	}
 	
 	def getNumberOfAnnotationSets = {
-		render openAnnotationReportingService.countAnnotationSets("yolo");
+		def userId = userAuthenticationService.getUserId(request.getRemoteAddr());
+		render openAnnotationReportingService.countAnnotationSets(userId);
 	}
 	
 	def getNumberOfAnnotatedResources = {
-		render openAnnotationReportingService.countAnnotatedResources("yolo");
+		def userId = userAuthenticationService.getUserId(request.getRemoteAddr());
+		render openAnnotationReportingService.countAnnotatedResources(userId);
 	}
 	
 	def getNumberOfAnnotationByResource = {
+		def userId = userAuthenticationService.getUserId(request.getRemoteAddr());
+		
 		JSONArray results = new JSONArray();
-		Map<String, Integer> map = openAnnotationReportingService.countAnnotationsForAllResources("yolo");
+		Map<String, Integer> map = openAnnotationReportingService.countAnnotationsForAllResources(userId);
 		map.keySet().each { key ->
 			JSONObject result = new JSONObject();
 			result.put("resource", key);
@@ -68,8 +73,10 @@ class CrunchController {
 	}
 	
 	def getNumberOfAnnotationSetsByResource = {
+		def userId = userAuthenticationService.getUserId(request.getRemoteAddr());
+		
 		JSONArray results = new JSONArray();
-		Map<String, Integer> map = openAnnotationReportingService.countAnnotationsForAllResources("yolo");
+		Map<String, Integer> map = openAnnotationReportingService.countAnnotationsForAllResources(userId);
 		map.keySet().each { key ->
 			JSONObject result = new JSONObject();
 			result.put("resource", key);
@@ -80,8 +87,10 @@ class CrunchController {
 	}
 	
 	def getNumberOfAnnotationByUser = {
+		def userId = userAuthenticationService.getUserId(request.getRemoteAddr());
+		
 		JSONArray results = new JSONArray();
-		Map<String, Integer> map = openAnnotationReportingService.countAnnotationsForEachUser("yolo");
+		Map<String, Integer> map = openAnnotationReportingService.countAnnotationsForEachUser(userId);
 		map.keySet().each { key ->
 			JSONObject result = new JSONObject();
 			result.put("user", key);

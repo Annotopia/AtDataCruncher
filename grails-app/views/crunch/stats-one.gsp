@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta name="layout" content="secure"/>
-		<title>Annotopia Pulse</title>
+		<title>Annotopia Statistics</title>
 		
 		<style type="text/css">
 			path.slice{
@@ -186,6 +186,7 @@
 					console.log( "Number of annotations by type " + data);
 					var counter =0;
 					var annotationsByTypes = new Array();
+					
 					data.forEach(function(d) {
 						var a = {};
 						a["label"] = d.type;

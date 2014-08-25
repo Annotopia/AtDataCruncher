@@ -1,10 +1,3 @@
-package org.annotopia.grails.controllers.datacruncher
-
-import grails.converters.JSON
-
-import org.codehaus.groovy.grails.web.json.JSONArray
-import org.codehaus.groovy.grails.web.json.JSONObject
-
 /*
  * Copyright 2014 Massachusetts General Hospital
  *
@@ -25,6 +18,12 @@ import org.codehaus.groovy.grails.web.json.JSONObject
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.annotopia.grails.controllers.datacruncher
+
+import grails.converters.JSON
+
+import org.codehaus.groovy.grails.web.json.JSONArray
+import org.codehaus.groovy.grails.web.json.JSONObject
 
 
 /**

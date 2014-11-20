@@ -14,14 +14,6 @@ grails.project.dependency.resolution = {
     legacyResolve false // whether to do a secondary resolve on plugin installation, not advised and here for backwards compatibility
     repositories {
         grailsCentral()
-        // uncomment the below to enable remote dependency resolution
-        // from public Maven repositories
-        //mavenLocal()
-        //mavenCentral()
-        //mavenRepo "http://snapshots.repository.codehaus.org"
-        //mavenRepo "http://repository.codehaus.org"
-        //mavenRepo "http://download.java.net/maven/2/"
-        //mavenRepo "http://repository.jboss.com/maven2/"
 		mavenRepo "https://repository.apache.org/content/repositories/snapshots/"
     }
     dependencies {
@@ -29,10 +21,10 @@ grails.project.dependency.resolution = {
 
         // runtime 'mysql:mysql-connector-java:5.1.21'
 		
-		compile ("org.apache.jena:jena-core:2.11.2-SNAPSHOT") {
+		compile ("org.apache.jena:jena-core:2.12.0") {
 			excludes 'slf4j-api', 'xercesImpl'
 		}
-		compile ("org.apache.jena:jena-arq:2.11.2-SNAPSHOT")
+		compile ("org.apache.jena:jena-arq:2.12.0")
 		
     }
 

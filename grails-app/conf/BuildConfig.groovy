@@ -14,13 +14,10 @@ grails.project.dependency.resolution = {
     legacyResolve false // whether to do a secondary resolve on plugin installation, not advised and here for backwards compatibility
     repositories {
         grailsCentral()
-		mavenRepo "https://repository.apache.org/content/repositories/snapshots/"
+		mavenLocal()
+		mavenCentral()
     }
     dependencies {
-        // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
-
-        // runtime 'mysql:mysql-connector-java:5.1.21'
-		
 		compile ("org.apache.jena:jena-core:2.12.0") {
 			excludes 'slf4j-api', 'xercesImpl'
 		}
